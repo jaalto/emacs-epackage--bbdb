@@ -1,0 +1,721 @@
+2011-12-11  Roland Winkler  <winkler@gnu.org>
+	* INSTALL, Makefile.in, aclocal.m4, configure.ac, install-sh:
+	* lisp/Makefile.in, doc/Makefil.in, doc/bbdb.texi:
+	* doc/doclicense.texi, doc/gpl.texi, tex/Makefile.in:
+	* tex/bbdb-cols.tex, tex/bbdb-print-brief.tex, tex/bbdb-print.tex:
+	New files.
+	* lisp/makefile-temp: Renamed from lisp/Makefile.
+	* README: Updated.
+
+	* lisp/bbdb-ispell.el: Header updated.  Prefix bbdb-spell replaced
+	by bbdb-ispell.
+	(bbdb-ispell): New custom group.
+	(bbdb-ispell-dictionary-list): Renamed from bbdb-spell-dictionary.
+	(bbdb-ispell-field-list): Renamed from bbdb-spell-field.
+	(bbdb-ispell-export): Merged with bbdb-spell-add-word.
+	(bbdb-ispell-collect-words): Renamed from
+	bbdb-spell-export-field. Merged with bbdb-spell-append-word.
+
+2011-12-11  Ivan Kanis <ivan.kanis@googlemail.com>
+	* lisp/bbdb-ispell.el: New file
+
+2011-11-27  Roland Winkler  <winkler@gnu.org>
+	* README: Updated.
+
+	* lisp/bbdb.el: Revert change from 2011-10-11.  Loading
+	bbdb-autoloads.el is sufficient.
+
+	* lisp/Makefile: It no longer supports VM by default, but you need
+	to enable it.
+
+2011-11-27  Leo  <sdl.web@gmail.com>
+	* lisp/bbdb.el (bbdb-image-suffixes): Fix typo.
+
+2011-11-20  Roland Winkler  <winkler@gnu.org>
+	* README: Updated.
+
+	* lisp/bbdb.el (bbdb-message-try-all-headers)
+	(bbdb-user-mail-address-re): Clarify doc string.
+	(bbdb-defstruct): Do not update bbdb-mail-aliases-need-rebuilt.
+	(bbdb-record-set-note): Update bbdb-mail-aliases-need-rebuilt.
+	(bbdb-record-set-name): Update name in cache and hash.
+	(bbdb-record-unset-name): Removed (obsolete).
+	(bbdb-hash-update): New function.
+	(bbdb-record-set-field): Use it.
+	(bbdb-records): Initiate variable bbdb-records.
+	(bbdb-parse-internal): Use bbdb-goto-first-record.
+	(bbdb-goto-first-record): Move backward only if we found a first
+	record.
+
+	* lisp/bbdb-com.el (bbdb-insert-field)
+	(bbdb-delete-field-or-record): Use bbdb-record-set-field.
+	(bbdb-edit-field): New optional arg value.  Handle affix,
+	organization, mail, aka, and note fields directly.
+	(bbdb-record-edit-affix, bbdb-record-edit-organziation)
+	(bbdb-record-edit-mail, bbdb-record-edit-aka)
+	(bbdb-record-edit-note): Removed.
+
+	* lisp/bbdb.el (bbdb-mail-avoid-redundancy) Renamed from
+	bbdb-mail-allow-redundancy.
+	* lisp/bbdb-com.el (bbdb-dwim-mail): Update it accordingly.
+
+	* lisp/bbdb.el (bbdb-update-records-p): Change default to less
+	agressive `search'.
+	(bbdb-mua-auto-update-p): New variable
+	* lisp/bbdb-mua.el (bbdb-mua-auto-update): Use it.
+	(bbdb-update-records): Resolve arg update-p up to two times.
+	* lisp/bbdb-message.el (bbdb/message-update-records-p)
+	* lisp/bbdb-rmail.el (bbdb/rmail-update-records-p)
+	* lisp/bbdb-gnus.el (bbdb/gnus-update-records-p)
+	* lisp/bbdb-mhe.el (bbdb/mh-update-records-p)
+	* lisp/bbdb-vm.el (bbdb/vm-update-records-p): Doc fix.
+
+	* lisp/bbdb-mua.el (bbdb-annotate-record): Convert annotation into
+	list if field is affix, organization, mail or aka.
+	(bbdb-mua-edit-field-interactive): New function.
+	(bbdb-mua-edit-field): New command.
+	(bbdb-mua-edit-field-sender, bbdb-mua-edit-field-recipients): Use
+	it.
+
+	* lisp/bbdb.el (bbdb-image, bbdb-image-path, bbdb-image-suffixes):
+	New variables.
+	(bbdb-display-name-organization): Use them to display images for
+	BBDB records.  Suggested by Ivan Kanis <apple@kanis.fr>.
+
+	* lisp/bbdb-migrate.el (bbdb-undocumented-variables): New command.
+
+2011-10-11  Teodor Zlatanov  <tzz@lifelogs.com>
+
+	* lisp/bbdb.el: Autoload `bbdb-insinuate-gnus' from bbdb-gnus.el
+	so `bbdb-initialize' won't throw an error when passed 'gnus.
+	Ditto 'message, 'rmail, 'vm, and 'mh-e.
+
+2011-10-10  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-name-format, bbdb-read-name-format)
+	(bbdb-name-face-alist): New user variables.
+	(bbdb-record-name-lf): New function.
+	(bbdb-display-name-organization): Use bbdb-name-format for
+	customizable display of name. Use note field name-face for
+	customizable font-locking of name of a record.
+	(bbdb-layout-list): Omit name-format and name-face
+	for multi-line and pop-up-multi-line format.
+	(bbdb-separator-alist): New default values for name-first-last and
+	name-last-first.
+	(bbdb-record-set-name): Use them.
+	* lisp/bbdb-com.el (bbdb-read-name): New function.
+	(bbdb-read-record, bbdb-record-edit-name): Use it.  New optional
+	arg first-and-last.
+
+	* lisp/bbdb.el: (bbdb-merge-notes-function): Removed (obsolete).
+	(bbdb-record-type): New internal variable.
+	(bbdb-check-type): Moved here from lisp/bbdb-com.el. Use the
+	pseudo-code of bbdb-record-type.
+	(bbdb-record-get-field, bbdb-merge-concat)
+	(bbdb-merge-concat-remove-duplicates, bbdb-merge-string-least)
+	(bbdb-merge-string-most, bbdb-merge-lists, bbdb-divide-name)
+	(bbdb-parse-postcode): Moved here from lisp/bbdb-com.el.
+	(bbdb-merge-note): Rewrite.
+	(bbdb-record-set-field): Moved here from lisp/bbdb-com.el.  New
+	optional args check and merge.
+	(bbdb-record-note-intern): New function.
+	(bbdb-record-set-note): Throw error if the name of a note field
+	equals the name of any other record field.
+	(bbdb-parse-frobnicate): Include all note fields in
+	bbdb-notes-label-list.
+	* lisp/bbdb-com.el (bbdb-create-internal): Use bbdb-check-type.
+	(bbdb-merge-records-internal): Removed (merged with
+	bbdb-merge-records).
+	(bbdb-merge-records): Use bbdb-record-set-field.
+	* lisp/bbdb-mua.el (bbdb-annotate-record): Renamed from
+	bbdb-annotate-note.  Use bbdb-record-set-field.
+
+	* lisp/bbdb.el (bbdb-initialize): Do not require bbdb-autoloads.
+
+	* lisp/bbdb.el (bbdb-phone-string): Fix error message.
+
+	* lisp/bbdb.el (bbdb-error-retry): Use progn.
+
+	* lisp/bbdb.el (bbdb-message-try-all-headers): New user variable.
+	* lisp/bbdb-mua.el (bbdb-get-address-components): Use it.
+
+	* lisp/bbdb-print.el (bbdb-print): Do not use \catcode.
+
+2011-09-22  Leo  <sdl.web@gmail.com>
+	* lisp/bbdb.el (bbdb-pop-up-window): Remove Gnus-specific code
+	which is not required anymore by recent versions of Gnus.
+
+2011-09-21  Leo  <sdl.web@gmail.com>
+	* lisp/bbdb-com.el (bbdb-browse-url): Fix usage of prefix arg.
+
+2011-09-19  Leo  <sdl.web@gmail.com>
+	* lisp/bbdb-com.el (bbdb-add-mail-alias): Fix completion list used
+	in interactive calls for deleting an alias.
+
+2011-09-19  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-mode-map): Use / as search prefix.
+
+2011-09-19  Abhi Yerra  <abhi@berkeley.edu>
+	* lisp/bbdb.el (bbdb-dial-function): New variable.
+	(bbdb-sound-player, bbdb-sound-files, bbdb-modem-dial)
+	(bbdb-modem-device, bbdb-sound-volume): Removed (obsolete).
+
+	* lisp/bbdb-com.el (bbdb-dial-number): Use browse-url and
+	bbdb-dial-function.
+	(bbdb-play-sound): Removed (obsolete)
+
+2011-09-19  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-com.el (bbdb-dial): First remove extension.  Simplify.
+
+2011-09-19  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-version): Do not use interactive-p.
+
+	* lisp/bbdb-message.el: Require sendmail for mail-mode-map.
+
+	* lisp/bbdb-anniv.el (number): Use with-no-warnings.
+
+	* lisp/bbdb-com.el (bbdb-divide-name): Fix regexp for matching
+	last name prefixes.
+
+2011-05-11  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-mua.el (bbdb-update-records): Fix previous patch.
+	(bbdb-prompt-for-create): Use special-mode.
+
+2011-05-11  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-notice-mail-hook): Rename from
+	bbdb-notice-hook.
+	(bbdb-notice-record-hook): New variable.
+	(bbdb-notice-hook-pending): Update doc string.
+
+	* lisp/bbdb-mua.el (bbdb-update-records): Call
+	bbdb-notice-record-hook.
+	(bbdb-annotate-message): Use bbdb-notice-mail-hook.
+
+	* lisb/bbdb-vm.el (bbdb/vm-auto-add-label): Update doc string.
+
+2011-05-08  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-com.el (bbdb-display-all-records): Use redisplay.  Why
+	needed?
+
+2011-05-08  Leo  <sdl.web@gmail.com>
+	* lisp/bbdb-com.el (bbdb-merge-records-internal): Fix typo
+
+2011-05-08  Leo  <sdl.web@gmail.com>
+	* lisp/bbdb-mua.el (bbdb-auto-notes): Fix typo
+
+2011-05-07  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-com.el (bbdb-display-current-record): New command.
+	(bbdb-display-all-records): Improve docstring.
+
+	* lisp/bbdb.el (bbdb-mode-map): Key bindings for
+	bbdb-display-all-records and bbdb-display-current-record.
+
+2011-04-29  Barak A. Pearlmutter  <barak@cs.nuim.ie>
+	* lisp/bbdb.el (bbdb-init-forms): Fix typo.
+	(bbdb-parse-internal): Clarify error message.
+
+2011-04-29  Barak A. Pearlmutter  <barak@cs.nuim.ie>
+	* lisp/bbdb-migrate.el (bbdb-peel-the-onion): New function.
+	(bbdb-migrate): Use it for cleaning up corrupted BBDB files.
+
+2011-04-29  Barak A. Pearlmutter  <barak@cs.nuim.ie>
+	* lisp/Makefile: Use option --batch.  New target TAGS.
+
+2011-04-29  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el, lisp/bbdb-com.el, lisp/bbdb-migrate.el,
+	lisp/bbdb-print.el: Rename degree field to affix.
+
+2011-04-29  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-display-name-organization): Include name in
+	text property.
+	(bbdb-scan-property): New function.
+	(bbdb-next-record, bbdb-prev-record): Use it.
+	(bbdb-next-field, bbdb-prev-field): New commands bound to "N" and
+	"P".
+
+2011-04-23  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-pop-up-window): Rename from
+	bbdb-pop-up-buffer.
+	* lisp/bbdb.el (bbdb-display-records-internal)
+	* lisp/bbdb-com.el (bbdb-complete-mail): Use new name.
+
+2011-04-23  Leo  <sdl.web@gmail.com>
+	* lisp/bbdb.el (bbdb-pop-up-buffer): Distinguish 1 and 1.0 in
+	bbdb-pop-up-window-size.
+
+2011-04-23  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-message.el (bbdb-insinuate-message)
+	(bbdb-insinuate-mail)
+	* lisp/bbdb-rmail.el (bbdb-insinuate-rmail)
+	* lisp/bbdb-gnus.el (bbdb-insinuate-gnus)
+	* lisp/bbdb-mhe.el (bbdb-insinuate-mh)
+	* lisp/bbdb-vm.el (bbdb-insinuate-vm): Fix docstring.
+
+2011-04-23  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-mode-map): Do no call set-keymap-parent which
+	is done already by define-derived-mode.  Reported by Sam Steingold
+	<sds@gnu.org>.  Add menu binding for revert-buffer.
+
+2011-04-16  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-create-hook, bbdb-change-hook): Use defvar.
+
+2011-04-16  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-time-stamp-format): Includes timezone info.
+
+2011-04-16  Roland Winkler  <winkler@gnu.org>
+	* TODO: New file.
+
+2011-04-16  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-faces): Group of faces used by BBDB.
+	(bbdb-name, bbdb-organization, bbdb-field-name): New faces.
+	(bbdb-display-name-organization, bbdb-display-record-one-line)
+	(bbdb-display-record-multi-line): Use them.
+
+2011-04-16  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-mode-map): Inherit from special-mode-map.
+	(bbdb-quit-window): Renamed from bbdb-bury-buffer.  Use
+	quit-window.
+	(bbdb-mode):  Use define-derived-mode.
+
+2011-04-16  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-indent-string): New function.
+	(bbdb-display-record-multi-line): Use it.  (Bug#33101)
+
+2011-04-16  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-com.el:  Autoload browse-url-url-at-point.
+
+2011-04-16  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-create-hook, bbdb-change-hook):  Call
+	add-hook for the default hook functions.
+
+2011-04-11  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-com.el (bbdb-complete-mail): Ensure initialization of
+	the database.
+
+2011-04-10  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-utilities-anniv): New customization group.
+	(bbdb-create-hook, bbdb-change-hook)
+	(bbdb-after-change-hook, bbdb-notice-hook)
+	(bbdb-default-separator): Improve doc string.
+	(bbdb-separator-alist): Improve doc string.  Include entries for
+	anniversaries.
+	(bbdb-records):  Use make-variable-buffer-local.
+	(bbdb-current-field):  Do not remove field-name.
+	(bbdb-record-note): Simplified.
+	(bbdb-record-note-n): Removed.
+	(bbdb-record-note-split): New function.
+	(bbdb-record-set-note): Improved documentation.
+	(bbdb-format-note, bbdb-record-format-note): New function.
+	(bbdb-display-text):  Renamed from bbdb-format-text.
+	(bbdb-display-list):  Renamed from bbdb-format-list.
+	(bbdb-display-name-organization): Renamed from
+	bbdb-format-name-organization.
+	(bbdb-display-record-one-line): Renamed from
+	bbdb-format-record-one-line.  Unify text properties.
+	(bbdb-display-record-multi-line): Renamed from
+	bbdb-format-record-multi-line.  Unify text properties.
+	(bbdb-display-record-full-multi-line): Renamed from
+	bbdb-format-record-full-multi-line.
+	(bbdb-display-record-pop-up-multi-line): Renamed from
+	bbdb-format-record-pop-up-multi-line.
+	(bbdb-display-record): Renamed from bbdb-format-record.
+	(bbdb-parse-internal, bbdb-parse-frobnicate): Simplified search
+	for first record.
+	(bbdb-delete-record-internal, bbdb-overwrite-record-internal):
+	Disentangle code.
+
+	* lisp/bbdb-com.el (bbdb-editable): Throw error if *BBDB* buffer
+	is out of sync with database.
+	(bbdb-search): Use suffix -re for all args that are regular
+	expressions.
+	(bbdb-delete-duplicate-mails, bbdb-sort-addresses)
+	(bbdb-sort-phones, bbdb-sort-notes): New optional arg update.
+	(bbdb-record-edit-note): Renamed from bbdb-record-edit-notes.
+	(bbdb-list-transpose, bbdb-ident-point): New functions.
+	(bbdb-transpose-fields): Use them.  Make code more robust such
+	that it can be applied to any subfields of the same type.
+	(bbdb-field-equal, bbdb-next-field): Removed (obolete).
+	(bbdb-mail-aliases, bbdb-get-mail-aliases, bbdb-add-mail-alias)
+	(bbdb-browse-url): Use bbdb-record-note-split.
+
+	* lisp/bbdb-mua.el (bbdb-mua-wrapper): Do not use
+	rmail-select-summary.
+	(bbdb-mua-auto-update): Bug fix.
+
+	* lisp/bbdb-rmail.el (bbdb-insinuate-rmail)
+	* lisp/bbdb-mhe.el (bbdb-insinuate-mh): Bind to
+	bbdb-mua-edit-notes-sender.
+
+	* lisp/bbdb-vm.el (bbdb/vm-auto-folder, bbdb/vm-virtual-folder)
+	(bbdb/vm-auto-add-label): Use bbdb-record-note-split.
+
+	* lisp/bbdb-print.el (bbdb-print-omit-fields): Remove `omit'.
+
+	* lisp/bbdb-anniv.el: New file.
+
+	* lisp/Makefile: Honor lisp/bbdb-anniv.el.
+
+2011-03-05  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-modeline-info): New variable.
+	(bbdb-mode): Use it.
+	(bbdb-mode-map): Unify keybindings for search commands.
+	(bbdb-sort-records): Update marker positions correctly.
+
+	* lisp/bbdb-com.el (bbdb-append-display-p, bbdb-append-display)
+	(bbdb-search-invert-p, bbdb-search-invert): Use
+	bbdb-modeline-info.
+	(bbdb-search): Also search for addresses.  Simplify codde.
+	(bbdb-search-address): New command.
+	(bbdb-search-phone): Fix prompt.
+
+	* lisp/bbdb-mua.el (bbdb-mua-wrapper): Simplify code.
+	(bbdb-mua-auto-update-init): Doc fix.
+
+	* lisp/bbdb-message.el (bbdb/message-update-records-p)
+	* lisp/bbdb-rmail.el (bbdb/rmail-update-records-p)
+	* lisp/bbdb-gnus.el (bbdb/gnus-update-records-p)
+	* lisp/bbdb-mhe.el (bbdb/mh-update-records-p)
+	* lisp/bbdb-vm.el (bbdb/vm-update-records-p): Doc fix.
+
+2011-02-27  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-address-format-list): New variable for
+	customization of address formatting and editing. (renamed
+	from bbdb-address-format-alist).
+	(bbdb-format-address): Use it.
+	(bbdb-format-record-one-line, bbdb-format-record-multi-line): Use
+	bbdb-format-address.
+	(bbdb-address-edit-function, bbdb-format-streets)
+	(bbdb-format-address-continental): Removed. Obsolete because of
+	bbdb-address-format-list.
+	(bbdb-format-record): Use funcall instead of eval.
+	(bbdb-continental-postcode-regexp): Renamed from
+	bbdb-continental-zip-regexp.
+	(bbdb-check-postcode): Renamed from bbdb-check-zip.
+	(bbdb-legal-postcodes): Renamed from bbdb-legal-zip-codes.
+	(bbdb-expand-mail-aliases): Removed.
+	(bbdb-notes-label-list): Renamed from bbdb-notes-names.
+	(bbdb-parse-frobnicate): Calculate value of bbdb-notes-label-list
+	instead of reading it.  Use memq instead of member.
+	(bbdb-set-notes-labels): Renamed from bbdb-set-notes-names. Do not
+	write value of bbdb-notes-label-list.
+	(bbdb-set-eq): Removed (obsolete).
+	(bbdb-defstruct): Use defsubst.
+	(bbdb-record-unset-name): Clarify code.
+	(bbdb-initialize): Doc fix.
+
+	* lisp/bbdb-com.el (bbdb-message-search): Use name only if mail
+	address does not match.
+	(bbdb-parse-postcode): Renamed from bbdb-parse-zip.
+	(bbdb-insert-field): In interactive calls ignore fields that are
+	already present.
+	(bbdb-record-edit-phone): Convert format of phone number if old
+	and new format are different.
+	(bbdb-edit-field): Use new bbdb-record-edit-phone.
+	(bbdb-record-edit-address): Use bbdb-address-format-list.
+	(bbdb-edit-address-street): Renamed from
+	bbdb-address-edit-street. Take arg street instead of address.
+	(bbdb-edit-address-default): Renamed from
+	bbdb-address-edit-default.
+	(bbdb-address-edit-continental): Removed (obsolete).
+	(bbdb-complete-mail-cleanup): Removed. Code merged with
+	bbdb-complete-mail.
+	(bbdb-complete-mail): Return non-nil if valid completion
+	exists. Simplify code.
+
+	* lisp/bbdb-mua.el (bbdb-annotate-message): Use bbdb-string=.
+	(bbdb-mua-wrapper): Also handle mail and message mode.
+	(bbdb-mua-auto-update): Renamed from bbdb-mua-pop-up-bbdb-buffer.
+	Perform auto update even if bbdb-message-pop-up is nil.
+	(bbdb-mua-auto-update-init): Renamed from
+	bbdb-mua-pop-up-init. Doc fix. Use memq instead of member.
+	(bbdb-force-record-create): Removed (obsolete).
+
+	* lisp/bbdb-migrate.el (bbdb-migrate-postcodes-to-strings):
+	Renamed from bbdb-migrate-zip-codes-to-strings.
+
+	* lisp/bbdb-print.el (bbdb-print-tex-quote-alist): Fix regexp.
+	(bbdb-print-address-format-list): Renamed from
+	bbdb-print-address-format-alist. Use bbdb-address-format-list as
+	default.
+	(bbdb-print): Use bbdb-format-address.
+	(bbdb-print-address-continental): Removed.
+
+2011-01-17  Roland Winkler  <winkler@gnu.org>
+	* lisp/Makefile: Do not attempt to add empty line to
+	bbdb-autloads.el.
+
+2011-01-16  Roland Winkler  <winkler@gnu.org>
+	* README: Updated.
+
+	* lisp/Makefile: In bbdb-autloads.el, add BBDB lisp directory to
+	load-path.
+
+	* lisp/bbdb.el (bbdb-pop-up-buffer): Use condition-case, in case
+	split-window fails.
+	(bbdb-records, bbdb-mode, bbdb-version, bbdb-initialize): Add
+	autoload cookie.
+
+2011-01-15  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-mua.el (bbdb-mua-update-records): For Gnus use
+	gnus-article-buffer.
+	(bbdb-mua-wrapper): New macro.
+	(bbdb-mua-display-records, bbdb-mua-annotate-sender)
+	(bbdb-mua-annotate-recipients, bbdb-mua-edit-notes-sender)
+	(bbdb-mua-edit-notes-recipients): Use it.
+	(bbdb-mua-update-mua): Removed (obsolete because of
+	bbdb-mua-wrapper).
+
+	* lisp/bbdb-gnus.el (bbdb-insinuate-gnus): Code doc updated.
+
+	* lisp/bbdb-com.el (bbdb-complete-name): Obsolete alias for
+	bbdb-complete-mail.
+
+2011-01-06  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-message-headers, bbdb-accept-name-mismatch)
+	(bbdb-use-alternate-names): Fix docstring.
+	(bbdb-auto-notes-rules): Renamed from bbdb-auto-notes-alist.  New
+	format.
+	(bbdb-auto-notes-ignore-messages): Renamed from
+	bbdb-auto-notes-ignore-all.
+	(bbdb-auto-notes-ignore-headers): Renamed from
+	bbdb-auto-notes-ignore.
+	(bbdb-pop-up-window-size): Fix docstring.
+	(bbdb-horiz-pop-up-window-size): New variable.
+	(bbdb-pop-up-buffer): Use it.
+	(bbdb-auto-notes-rules-expanded): New variable.
+
+	* lisp/bbdb-com.el: Use eval-and-compile.
+	(bbdb-subint): Moved here from lisp/bbdb.el. Simplified.
+	(bbdb-parse-phone): Return value always includes extension.
+	(bbdb-read-record): Simplified accordingly.
+	(bbdb-prompt-for-new-field): Use phone number style as returned
+	from bbdb-parse-phone.
+
+	* lisp/bbdb-mua.el: Use eval-and-compile.
+	(bbdb-update-records): Avoid name clash with function search in
+	cl-seq.el.
+	(bbdb-message-header-re): New function.
+	(bbdb-accept-message): Use it.
+	(bbdb-get-address-components): Also return MUA.
+	(bbdb-annotate-message): Bug fix.  Simplify.
+	(bbdb-mua-pop-up-init): New function.
+	(bbdb-auto-notes): Complete re-write.
+
+	* lisp/bbdb-message.el (bbdb-insinuate-message)
+	(bbdb-insinuate-mail)
+	* lisp/bbdb-rmail.el (bbdb-insinuate-rmail)
+	* lisp/bbdb-gnus.el (bbdb-insinuate-gnus)
+	* lisp/bbdb-mhe.el (bbdb-insinuate-mh)
+	* lisp/bbdb-vm.el (bbdb-insinuate-vm): Do not hook in
+	bbdb-mua-pop-up-bbdb-buffer.  (Use instead bbdb-mua-pop-up-init.)
+
+2010-12-15  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-mua-message): New customization group.
+	(bbdb-update-records-p): Value may also be a function.
+	(bbdb-mua-update-interactive-p): New variable.
+	(bbdb-init-forms): Add message and mail mode support. Sendmail is
+	deprecated (use mail instead). Remove outdated support for
+	reportmail, supercite and w3.
+	(bbdb-initialize): Updated accordingly. Do not test presence of
+	features (which is not needed).
+	(bbdb-insinuate-sendmail): Removed (use bbdb-insinuate-mail).
+	( bbdb-insinuate-message): Moved to bbdb-message.el.
+
+	* lisp/bbdb-com.el (bbdb-mail, bbdb-mail-address): Simplified.
+
+	* lisp/bbdb-mua.el (bbdb-mua, bbdb-message-header): New functions.
+	(bbdb-get-address-components): Use bbdb-message-header.
+	Simplified.
+	(bbdb-update-records): New arg msg-key. Handle message cache.
+	Arg update-p may also be a function.
+	(bbdb-mua-update-records, bbdb-mua-update-mua)
+	(bbdb-mua-update-interactive-p, bbdb-mua-pop-up-bbdb-buffer): New
+	functions.
+	(bbdb-mua-display-records, bbdb-mua-display-sender)
+	(bbdb-mua-display-recipients, bbdb-mua-annotate-sender)
+	(bbdb-mua-annotate-recipients, bbdb-mua-edit-notes-sender)
+	(bbdb-mua-edit-notes-recipients): New commands.
+
+	* lisp/bbdb-vm.el (bbdb/vm-header): Remove MIME decoding.
+	(bbdb/vm-update-records, bbdb/vm-pop-up-bbdb-buffer)
+	(bbdb/vm-show-records, bbdb/vm-show-sender)
+	(bbdb/vm-show-recipients, bbdb/vm-annotate-sender)
+	(bbdb/vm-edit-notes): Obsolete. Use instead generic functions in
+	bbdb-mua.el.
+	(bbdb-insinuate-vm): Use generic commands.
+
+	* lisp/bbdb-gnus.el (bbdb/gnus-update-records)
+	(bbdb/gnus-pop-up-bbdb-buffer, bbdb/gnus-show-records)
+	(bbdb/gnus-show-sender, bbdb/gnus-show-recipients)
+	(bbdb/gnus-annotate-sender, bbdb/gnus-edit-notes)
+	(bbdb/gnus-summary-show-all-recipients): Obsolete. Use instead
+	generic functions in bbdb-mua.el.
+	(bbdb-insinuate-gnus): Use generic commands.
+	(bbdb/gnus-lines-and-from-length): Removed as
+	gnus-optional-headers appears to be obsolete, too.
+	(bbdb/gnus-message-marker-field): New variable.
+	(bbdb-message-marker-field): Declared obsolete.
+	(bbdb/gnus-summary-get-sender, bbdb/gnus-summary-sender-in-bbdb)
+	(bbdb/gnus-nnimap-folder-list-from-bbdb): Simplified.
+
+	* lisp/bbdb-rmail.el (bbdb/rmail-update-records)
+	(bbdb/rmail-pop-up-bbdb-buffer, bbdb/rmail-show-records)
+	(bbdb/rmail-show-sender, bbdb/rmail-show-recipients)
+	(bbdb/rmail-annotate-sender, bbdb/rmail-edit-notes)
+	(bbdb/rmail-summary-show-all-recipients): Obsolete. Use instead
+	generic functions in bbdb-mua.el.
+	(bbdb-insinuate-rmail): Use generic commands.  Remove defadvice
+	which has become obsolete because header Messge-ID is used for
+	message caching.
+
+	* lisp/bbdb-mhe.el, lisp/bbdb-message.el: New files.
+
+	* lisp/Makefile: Updated to compile also the new files.
+
+2010-11-30  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-update-records-p): Fix docstring.
+	(bbdb-message-pop-up): Change default to a less aggressive nil.
+	(bbdb-format-record-one-line): Remove linebreaks from multi-line
+	notes.
+
+	* lisp/bbdb-com.el (bbdb-delete-duplicate-mails)
+	(bbdb-display-records-completely)
+	(bbdb-display-records-with-layout, bbdb-copy-records-as-kill): Doc
+	fix.
+	(bbdb-search-duplicates): Improved interactive spec.  New arg
+	records.  Doc fix
+	(bbdb-delete-field-or-record): Make records a required arg. New
+	arg fields.  Doc fix.
+	(bbdb-delete-records, bbdb-toggle-records-layout)
+	(bbdb-sort-addresses, bbdb-sort-phones, bbdb-sort-notes)
+	(bbdb-add-mail-alias): Make records a required arg.  Doc fix.
+	(bbdb-mail-address): New command bound to M.
+	(bbdb-mail): Use it.  New arg verbose.  Fix interactive spec.
+	(bbdb-mail-yank): Renamed from bbdb-yank-addresses.  Bug fix.
+	(bbdb-yank-addresses): Declared obsolete.
+	(bbdb-browse-url): Simplify.  Doc fix.
+	(bbdb-grab-url): Simplify.
+
+	* lisp/bbdb-vm.el (bbdb/vm-update-records-p)
+	* lisp/bbdb-gnus.el (bbdb/gnus-update-records-p)
+	* lisp/bbdb-rmail.el (bbdb/rmail-update-records-p): Improved default.
+
+2010-11-01  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-wrap-column): New variable.
+	(bbdb-format-list): Use bbdb-wrap-column and bbdb-separator-alist.
+	(bbdb-layout-alist, bbdb-format-address-continental)
+	(bbdb-format-address-default, bbdb-format-record-multi-line):
+	Change value of indentation such that it becomes the total
+	indentation.
+
+	* lisp/bbdb-com.el (bbdb-dwim-mail): Fix typo.
+
+2010-10-17  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-mail-allow-redundancy): Doc fix.
+	(bbdb-mode-map): Include bbdb-do-all-records in "Use database"
+	submenu.
+
+	* lisp/bbdb-com.el (bbdb-record-list): Doc fix.
+	(bbdb-dwim-mail): Arg MAIL may be a number,
+	which will pick the MAILth mail address.
+	(bbdb-mail): New optional arg N to pick Nth mail address.
+
+2010-09-30  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-insert-record-internal): Handle empty
+	database properly.
+	* lisp/bbdb-com.el (bbdb-dwim-mail): Cleanup code.
+
+2010-09-19  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb-mua.el (bbdb-prompt-for-create): Quit with C-g.
+	(bbdb-annotate-message) Call UPDATE-P only if record is not yet
+	defined.
+
+2010-08-28  Roland Winkler  <winkler@gnu.org>
+	* Relicense all BBDB files to GPLv3 or later.  Update email
+	address to winkler@gnu.org.
+
+	* lisp/bbdb.el (bbdb-completion-list): Element name replaced by
+	fl-name and lf-name.
+
+	* lisp/bbdb-com.el (bbdb-insert-field): Use remq instead of delq.
+	(bbdb-complete-mail): Do not use trimmed version of the pattern
+	for partial completion.  Distinguish fl-name and lf-name.
+
+2010-08-01  Roland Winkler  <winkler@gnu.org>
+	* lisp/bbdb.el (bbdb-message-caching): Renamed from
+	bbdb-message-caching-enabled.
+	(bbdb-create-hook): Renamed from bbdb-create-hooks.
+	(bbdb-change-hook): Renamed from bbdb-change-hooks.
+	(bbdb-after-change-hook): Renamed from bbdb-after-change-hooks.
+	(bbdb-notice-hook): Renamed from bbdb-notice-hooks.
+	(bbdb-accept-message-alist): Renamed from
+	bbdb-accept-messages-alist.
+	(bbdb-ignore-message-alist): Renamed from
+	bbdb-ignore-messages-alist.
+	(bbdb-update-records-p): New user var.
+	(bbdb-notice-hook-pending): Renamed from bbdb-inside-notice-hooks.
+	(bbdb-user-mail-address-re): Renamed from bbdb-user-mail-names.
+	(bbdb-mail-allow-redundancy): Renamed from
+	bbdb-dwim-mail-allow-redundancy.
+	(bbdb-check-auto-save-file): Renamed from
+	bbdb-notice-auto-save-file.
+	(bbdb-completion-list): Renamed from bbdb-completion-alist.
+	(bbdb-mail-alias): Renamed from bbdb-mail-alias-mode.
+	(bbdb-mail-user-agent): Replacement for bbdb-user-style.
+	(bbdb-compose-mail): Renamed from bbdb-mail-internal.
+	(bbdb-default-separator): Renamed from
+	bbdb-notes-default-separator.
+	(bbdb-separator-alist): Renamed from bbdb-notes-separator-alist.
+	(bbdb-concat): Renamed from bbdb-join.
+
+	* lisp/bbdb-com.el (bbdb-grab-url): Renamed from
+	bbdb-url-grab-url.
+
+	* lisp/bbdb-mua.el: New file. Content merged from bbdb-com.el and
+	bbdb-hooks.el
+	(bbdb-get-address-components): Changed calling sequence.
+	(bbdb-message-header): Renamed from bbdb-message-field.
+	(bbdb-accept-message): Renamed from bbdb-ignore-most-messages.
+	(bbdb-ignore-message): Renamed from bbdb-ignore-some-messages.
+	(bbdb-select-message): Renamed from
+	bbdb-ignore-selected-messages-hook.
+	(bbdb-auto-notes): Renamed from bbdb-auto-notes-hook.
+	(bbdb-canonicalize-mail-1): Renamed from
+	bbdb-sample-canonicalize-mail-function.
+
+	* lisp/bbdb-print.el (bbdb-print-file): Renamed from
+	bbdb-print-file-name.
+	(bbdb-print-tex-quote-alist): New var.
+	(bbdb-print-address-format-alist): Renamed from
+	bbdb-address-print-format-alist.
+	(bbdb-print-record): Renamed from bbdb-print-format-record.
+	(bbdb-print-address-continental): Renamed from
+	bbdb-print-format-address-continental.
+	(bbdb-print-address-default): Renamed from
+	bbdb-print-format-address-default.
+	(bbdb-print-phone): Renamed from bbdb-print-phone-string.
+
+	* lisp/bbdb-vm.el (bbdb/vm-auto-folder): Renamed from
+	bbdb/vm-auto-folder-alist.
+	(bbdb/vm-virtual-folder): Renamed from
+	bbdb/vm-virtual-folder-alist.
+
+;; Local Variables:
+;; coding: utf-8
+;; End:
+
+  Copyright (C) 2010, 2011 Roland Winkler <winkler@gnu.org>
+
+  This file is part of the Insidious Big Brother Database (aka BBDB),
+
+  BBDB is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  BBDB is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with BBDB.  If not, see <http://www.gnu.org/licenses/>.
