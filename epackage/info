@@ -1,0 +1,36 @@
+Package: bbdb
+Section: data
+License: GPL-2+
+Depends: emacs (>= 21.4)
+Status: core-xemacs stable unmaintained
+Compat:
+Maintainer: Jari Aalto <jari.aalto@cante.net>
+Bugs:
+Upstream: Robert Widhop-Fenk <fenk@users.sourceforge.net>
+Upstream-Bugs: http://sourceforge.net/tracker/?group_id=4236&atid=204236
+Vcs-Type: cvs
+Vcs-Url: :pserver:anonymous@bbdb.cvs.sourceforge.net:/cvsroot/bbdb
+Vcs-Args: bbdb
+Vcs-Browser: http://bbdb.cvs.sourceforge.net/viewvc/bbdb
+Vcs-User:
+Vcs-Password:
+Homepage: http://freecode.com/projects/bbdb
+X-Homepage: http://sourceforge.net/projects/bbdb
+Wiki: http://www.emacswiki.org/emacs/BbdbMode
+Commentary:
+X-Development:
+ Before BBDB can be used, the autoloads file must be generated.
+ Run command:
+ .
+    ./configure && make autoloads
+ .
+ And it will generate file lisp/bbdb-autoloads.el
+Description: The insidious Big Brother Database
+ BBDB is a complete address book for nearly every email and news
+ client written for Emacs, and its functionality supports (by default)
+ making entries in the address book automatically when reading email
+ or posts by people, and easy lookup of addresses while composing
+ messages.
+ .
+ Note 2010-11-27 the code hasn't been touched since 2008-03-16
+ (lisp/bbdb-com.el).
