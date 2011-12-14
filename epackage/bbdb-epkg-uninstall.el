@@ -1,0 +1,7 @@
+(remove-hook 'gnus-startup-hook  'bbdb-insinuate-gnus)
+(remove-hook 'mail-setup-hook    'bbdb-insinuate-mail)
+(remove-hook 'message-setup-hook 'bbdb-insinuate-message)
+(remove-hook 'rmail-mode-hook    'bbdb-insinuate-rmail)
+(remove-hook 'mail-setup-hook    'bbdb-mail-aliases)
+(remove-hook 'message-setup-hook 'bbdb-mail-aliases)
+(provide 'bbdb-epkg-uninstall)
