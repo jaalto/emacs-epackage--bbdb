@@ -19,12 +19,11 @@ X-Homepage: http://sourceforge.net/projects/bbdb
 Wiki: http://www.emacswiki.org/emacs/BbdbMode
 Commentary:
 X-Development:
- Before BBDB can be used, the autoloads file must be generated.
- Run command:
+ To generate generate lisp/bbdb-loaddefs.el,
+ run after upstream git checkout:
  .
+    autoconf -v
     ./configure && make autoloads
- .
- And it will generate file lisp/bbdb-autoloads.el
 Description: The insidious Big Brother Database
  BBDB is a complete address book for nearly every email and news
  client written for Emacs, and its functionality supports (by default)
