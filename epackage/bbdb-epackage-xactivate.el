@@ -1,4 +1,4 @@
-(require 'bbdb-epkg-install)
+(require 'bbdb-epackage-install)
 
 ;; Redundant, see bbdb-initialize in bbdb-install.el, but anyway...
 (add-hook 'gnus-startup-hook  'bbdb-insinuate-gnus)
@@ -12,4 +12,4 @@
   (add-hook 'mail-setup-hook    'bbdb-mail-aliases)
   (add-hook 'message-setup-hook 'bbdb-mail-aliases))
 
-(provide 'bbdb-epkg-activate)
+(provide 'bbdb-epackage-activate)

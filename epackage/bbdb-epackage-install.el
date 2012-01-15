@@ -6,4 +6,4 @@
 (autoload 'bbdb-insinuate-message               "bbdb-message" "" nil)
 (autoload 'bbdb-insinuate-rmail                 "bbdb-rmail" "" nil)
 (autoload 'bbdb-insinuate-vm                    "bbdb-vm" "" nil)
-(provide 'bbdb-epkg-install)
+(provide 'bbdb-epackage-install)
