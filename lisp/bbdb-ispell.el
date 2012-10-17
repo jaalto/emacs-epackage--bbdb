@@ -1,7 +1,7 @@
 ;;; bbdb-ispell.el --- export names from BBDB to personal ispell dictionaries
 
-;; Copyright (C) 2011 Ivan Kanis <ivan.kanis@googlemail.com>
-;;                    and Roland Winkler <winkler@gnu.org>
+;; Copyright (C) 2011-2012 Ivan Kanis <ivan.kanis@googlemail.com>
+;;                         and Roland Winkler <winkler@gnu.org>
 
 ;; Author: Ivan Kanis <ivan.kanis@googlemail.com>
 
@@ -30,9 +30,9 @@
 ;; Exclude words via `bbdb-ispell-min-word-length' and `bbdb-ispell-ignore-re'.
 ;;
 ;; Bugs:
-;; Save your personal directories before running this code. I had my
-;; dictionary truncated while debugging. It shouldn't happen but
-;; better be safe than sorry...
+;; Save your personal directories before running this code.  I had my
+;; dictionary truncated while debugging.  It shouldn't happen
+;; but better be safe than sorry...
 ;;
 ;; See the BBDB info manual for documentation.
 
@@ -41,20 +41,16 @@
 (require 'ispell)
 (require 'bbdb)
 
-(defgroup bbdb-ispell nil
-  "Variables that affect the ispell interface for BBDB"
-  :group 'bbdb)
-
 (defcustom bbdb-ispell-dictionary-list '("default")
   "List of ispell personal dictionaries.
 Allowed elements are as in the return value of `ispell-valid-dictionary-list'."
-  :group 'bbdb-ispell
+  :group 'bbdb-utilities-ispell
   :type (cons 'set (mapcar (lambda (dict) `(string ,dict))
                            (ispell-valid-dictionary-list))))
 
 (defcustom bbdb-ispell-field-list '(name organization aka)
   "List of fields of each BBDB record considered for the personal dictionary."
-  :group 'bbdb-ispell
+  :group 'bbdb-utilities-ispell
   :type (list 'repeat
               (append '(choice) (mapcar (lambda (field) `(const ,field))
                                         '(name organization affix aka address))
@@ -62,12 +58,12 @@ Allowed elements are as in the return value of `ispell-valid-dictionary-list'."
 
 (defcustom bbdb-ispell-min-word-length 3
   "Words with fewer characters are ignored."
-  :group 'bbdb-ispell
+  :group 'bbdb-utilities-ispell
   :type 'number)
 
 (defcustom bbdb-ispell-ignore-re "[^[:alpha:]]"
   "Words matching this regexp are ignored."
-  :group 'bbdb-ispell
+  :group 'bbdb-utilities-ispell
   :type 'regexp)
 
 ;; Internal variable
@@ -83,7 +79,7 @@ Allowed elements are as in the return value of `ispell-valid-dictionary-list'."
     ;; Collect words from BBDB records.
     (dolist (record (bbdb-records))
       (dolist (field bbdb-ispell-field-list)
-        (bbdb-ispell-collect-words (bbdb-record-get-field record field))))
+        (bbdb-ispell-collect-words (bbdb-record-field record field))))
 
     ;; Update personal dictionaries
     (dolist (dict (or bbdb-ispell-dictionary-list '("default")))

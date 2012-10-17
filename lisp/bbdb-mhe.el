@@ -3,7 +3,7 @@
 ;; Copyright (C) 1991 Todd Kaufmann <toad@cs.cmu.edu>
 ;; Modified: 28-Jul-94 by Fritz Knabe <knabe@ecrc.de>
 ;;                        Jack Repenning <jackr@dblues.wpd.sgi.com>
-;; Copyright (C) 2010, 2011 Roland Winkler <winkler@gnu.org>
+;; Copyright (C) 2010-2012 Roland Winkler <winkler@gnu.org>
 
 ;; This file is part of the Insidious Big Brother Database (aka BBDB),
 
@@ -45,6 +45,7 @@ in a value of nil for the arg UPDATE-P of `bbdb-update-records'.
 Allowed values are:
  nil          Do nothing.
  search       Search for existing records.
+ update       Search for existing records, update if necessary.
  query        Update existing records or query for creating new ones.
  create or t  Update existing records or create new ones.
  a function   This functions will be called with no arguments.
@@ -53,6 +54,9 @@ Allowed values are:
   :type '(choice (const :tag "do nothing" nil)
                  (const :tag "search for existing records"
                         (lambda () (let ((bbdb-update-records-p 'search))
+                                     (bbdb-select-message))))
+                 (const :tag "update existing records"
+                        (lambda () (let ((bbdb-update-records-p 'update))
                                      (bbdb-select-message))))
                  (const :tag "query annotation of all messages"
                         (lambda () (let ((bbdb-update-records-p 'query))

@@ -1,4 +1,4 @@
-# Copyright (C) 2010, 2011 Roland Winkler <winkler@gnu.org>
+# Copyright (C) 2010-2012 Roland Winkler <winkler@gnu.org>
 # 
 # This file is part of the Insidious Big Brother Database (aka BBDB),
 # 
@@ -85,6 +85,7 @@ bbdb-loaddefs.el: $(SRCS)
 #	$srcdir can be relative.
 	@HUSHMAKE@$(emacs) -l autoload					\
 		--eval '(setq generated-autoload-file "'`pwd`/$@'")'	\
+		--eval '(setq make-backup-files nil)'			\
 		-f batch-update-autoloads `pwd`
 
 .PHONY: no-bbdb-autoloads

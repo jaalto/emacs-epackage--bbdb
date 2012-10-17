@@ -1,6 +1,6 @@
 BBDB todo List                                                   -*-outline-*-
 
-Copyright (C) 2011 Roland Winkler <winkler@gnu.org>
+Copyright (C) 2011-2012 Roland Winkler <winkler@gnu.org>
 See the end of the file for license conditions.
 
 * Bug fixes
@@ -43,6 +43,8 @@ See the end of the file for license conditions.
    2011-04-05 Leo <sdl.web@gmail.com>
 
 ** Allow splitting of bbdb-file into multiple files
+
+** bbdb-narrow-display: Inverse of bbdb-append-display
 
 * Internals
 

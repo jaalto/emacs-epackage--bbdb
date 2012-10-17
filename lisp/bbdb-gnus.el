@@ -1,7 +1,7 @@
 ;;; bbdb-gnus.el --- BBDB interface to Gnus
 
 ;; Copyright (C) 1991, 1992, 1993 Jamie Zawinski <jwz@netscape.com>.
-;; Copyright (C) 2010, 2011 Roland Winkler <winkler@gnu.org>
+;; Copyright (C) 2010-2012 Roland Winkler <winkler@gnu.org>
 
 ;; This file is part of the Insidious Big Brother Database (aka BBDB),
 
@@ -35,7 +35,6 @@
 (defcustom bbdb/gnus-update-records-p
   (lambda () (let ((bbdb-update-records-p 'query))
                (bbdb-select-message)))
-  ;; (lambda () (if (gnus-new-flag) 'query 'search))
   "How `bbdb-mua-update-records' processes mail addresses in Gnus.
 This Gnus-specific variable is normally not used.  It is a fallback
 if the generic (MUA-independent) variables `bbdb-mua-auto-update-p',
@@ -45,6 +44,7 @@ in a value of nil for the arg UPDATE-P of `bbdb-update-records'.
 Allowed values are:
  nil          Do nothing.
  search       Search for existing records.
+ update       Search for existing records, update if necessary.
  query        Update existing records or query for creating new ones.
  create or t  Update existing records or create new ones.
  a function   This functions will be called with no arguments.
@@ -53,6 +53,9 @@ Allowed values are:
   :type '(choice (const :tag "do nothing" nil)
                  (const :tag "search for existing records"
                         (lambda () (let ((bbdb-update-records-p 'search))
+                                     (bbdb-select-message))))
+                 (const :tag "update existing records"
+                        (lambda () (let ((bbdb-update-records-p 'update))
                                      (bbdb-select-message))))
                  (const :tag "query annotation of all messages"
                         (lambda () (let ((bbdb-update-records-p 'query))
@@ -123,7 +126,7 @@ See `bbdb/gnus-summary-user-format-letter' for Gnus users."
   'bbdb/gnus-summary-prefer-real-names)
 
 (defcustom bbdb/gnus-summary-user-format-letter "B"
-  "This is the gnus-user-format-function- that will be used to insert
+  "This is the `gnus-user-format-function-' that will be used to insert
 the information from the BBDB in the summary buffer (using
 `bbdb/gnus-summary-get-sender').  This format code is meant to replace
 codes that insert sender names or addresses (like %A or %n). Unless
@@ -137,7 +140,7 @@ code for `bbdb/gnus-summary-sender-in-bbdb'"
   :type 'string)
 
 (defcustom bbdb/gnus-summary-in-bbdb-format-letter "b"
-  "This is the gnus-user-format-function- that will be used to insert
+  "This is the `gnus-user-format-function-' that will be used to insert
 `bbdb/gnus-summary-known-poster-mark' (using
 `bbdb/gnus-summary-sender-in-bbdb') if the poster is in the BBDB, and
 \" \" if not.  If the value of this variable is nil, no format code
@@ -310,6 +313,10 @@ addresses better than the traditionally static global scorefile."
                        "))"))))
   bbdb/gnus-score-alist)
 
+;;; FIXME: Is this code still useful?
+;;; It references various variables / functions from Gnus that are
+;;; not defined anymore in recent versions of Gnus.
+
 ;;; from Brian Edmonds' gnus-bbdb.el
 ;;;
 ;;; Filing with gnus-folder               REQUIRES (ding) 0.50 OR HIGHER
@@ -370,6 +377,8 @@ excellent choice."
   :group 'bbdb-mua-gnus-splitting
   :type  'function)
 
+;; FIXME: `gnus-local-domain' is obsolote since Emacs 24.1.
+;; FIXME: `gnus-use-generic-from' not known in recent versions of GNU Emacs
 (defcustom bbdb/gnus-split-myaddr-regexp
   (concat "^" (user-login-name) "$\\|^"
           (user-login-name) "@\\([-a-z0-9]+\\.\\)*"
@@ -391,6 +400,7 @@ identified."
   :group 'bbdb-mua-gnus-splitting
   :type  'boolean)
 
+;; FIXME: `gnus-private' not known in recent versions of GNU Emacs
 (defcustom bbdb/gnus-split-private-field 'gnus-private
   "This variable is used to determine the field to reference to find the
 associated group when saving private mail for a mail address known to
@@ -398,6 +408,7 @@ the BBDB.  The value of the field should be the name of a mail group."
   :group 'bbdb-mua-gnus-splitting
   :type  'string)
 
+;; FIXME: `gnus-public' not known in recent versions of GNU Emacs
 (defcustom bbdb/gnus-split-public-field 'gnus-public
   "This variable is used to determine the field to reference to find the
 associated group when saving non-private mail (received from a mailing

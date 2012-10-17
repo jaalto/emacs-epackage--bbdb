@@ -1,7 +1,7 @@
 ;;; bbdb-print.el -- for printing BBDB databases using TeX.
 
 ;; Copyright (C) 1993 Boris Goldowsky
-;; Copyright (C) 2010, 2011 Roland Winkler <winkler@gnu.org>
+;; Copyright (C) 2010-2012 Roland Winkler <winkler@gnu.org>
 
 ;; Authors: Boris Goldowsky <boris@cs.rochester.edu>
 ;;          Dirk Grunwald <grunwald@cs.colorado.edu>
@@ -76,14 +76,14 @@
 
 (defcustom bbdb-print-file "~/bbdb.tex"
   "Default file name for printouts of BBDB database."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type 'file)
 
 (defcustom bbdb-print-omit-fields
   '(tex-name aka mail-alias creation-date timestamp vm-folder)
   "List of fields NOT to print in address list.
 See also `bbdb-print-require'."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type '(repeat (symbol :tag "Field to exclude")))
 
 (defcustom bbdb-print-require '(or address phone)
@@ -103,7 +103,7 @@ in the following examples:
     (setq bbdb-print-require '(and name organization))
   Print people whose names, and either addresses or phone numbers are known:
     (setq bbdb-print-require '(and name (or address phone)))."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type '(choice (const :tag "Print all records" t)
                  (symbol :tag "Print all records with this field" phone)
                  (sexp :tag "Print only when this evaluates to non-nil"
@@ -221,7 +221,7 @@ The possible options and legal values are:
  - quad-hsize, quad-vsize: for the quad format, horizontal and
      vertical size of the little pages.  These must be strings which
      are valid TeX dimensions, eg \"10cm\"."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type 'bbdb-print-alist-widget)
 
 (defcustom bbdb-print-full-alist
@@ -231,7 +231,7 @@ The possible options and legal values are:
   "Extra options for `bbdb-print' non-brief format.
 These supplement or override entries in `bbdb-print-alist'; see description
 of possible contents there."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type 'bbdb-print-alist-widget)
 
 (defcustom bbdb-print-brief-alist
@@ -243,26 +243,26 @@ of possible contents there."
   "Extra Options for `bbdb-print', brief format.
 These supplement or override entries in `bbdb-print-alist'; see description
 of possible contents there."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type 'bbdb-print-alist-widget)
 
 (defcustom bbdb-print-prolog
   (concat "%%%% ====== Phone/Address list in -*-TeX-*- Format =====\n"
           "%%%%        produced by bbdb-print, version 3.0\n\n")
   "TeX statements to include at the beginning of the `bbdb-print' file."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type '(text :format "%t:\n%v"))
 
 (defcustom bbdb-print-epilog "\\endaddresses\n\\bye\n"
   "TeX statements to include at the end of the `bbdb-print' file."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type '(text :format "%t:\n%v"))
 
 (defcustom bbdb-print-mail 'primary
   "Whether only the primary or all mail addresses are printed.
 Value `primary' means print the primary mail address only.
 Value `all' means print all mail addresses."
-  :group 'bbdb-print
+  :group 'bbdb-utilities-print
   :type '(choice (const primary)
          (const all)))
 
@@ -273,13 +273,13 @@ Value `all' means print all mail addresses."
     ("~" . "\\\\~{}"))
   "Replacement alist for quoting TeX's special characters.
 Each element is of the form (REGEXP . REPLACE)."
-  :group 'bbdb-print)
+  :group 'bbdb-utilities-print)
 
 (defcustom bbdb-print-address-format-list bbdb-address-format-list
   "List of address formatting rules for printing.
 Each element may take the same values as in `bbdb-address-format-list'.
 The EDIT elements of `bbdb-address-format-list' are ignored."
-  :group 'bbdb-print)
+  :group 'bbdb-utilities-print)
 
 ;;; Functions:
 
@@ -390,9 +390,6 @@ from `bbdb-print-alist'.
 
 The return value is the new CURRENT-LETTER."
 
-  (bbdb-debug (if (bbdb-record-deleted-p record)
-                  (error "TeX formatting deleted record")))
-
   (let ((first-letter
          (substring (concat (bbdb-record-sortkey record) "?") 0 1))
         (name    (or (bbdb-record-note record 'tex-name)
@@ -403,7 +400,7 @@ The return value is the new CURRENT-LETTER."
         (mail    (bbdb-record-mail record))
         (phone   (bbdb-record-phone record))
         (address (bbdb-record-address record))
-        (notes   (bbdb-record-notes record))
+        (notes   (bbdb-record-Notes record))
         (bbdb-address-format-list bbdb-print-address-format-list))
 
     (when (eval bbdb-print-require)
