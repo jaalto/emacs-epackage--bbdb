@@ -1,72 +1,11 @@
 
-;;;### (autoloads (bbdb-utilities-pgp) "bbdb-pgp" "bbdb-pgp.el"
-;;;;;;  (20185 25663))
-;;; Generated autoloads from bbdb-pgp.el
+;;;### (autoloads (bbdb-initialize bbdb-version bbdb-mode) "bbdb"
+;;;;;;  "bbdb.el" (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb.el
 
-(let ((loads (get 'bbdb-utilities-pgp 'custom-loads))) (if (member '"../bits/bbdb-pgp" loads) nil (put 'bbdb-utilities-pgp 'custom-loads (cons '"../bits/bbdb-pgp" loads))))
-
-;;;***
-
-;;;### (autoloads (bbdb-obsolete-net-canonicalize-net-hook) "bbdb-obsolete"
-;;;;;;  "../bits/bbdb-obsolete.el" (20185 25663))
-;;; Generated autoloads from bbdb-obsolete.el
-
-(autoload 'bbdb-obsolete-net-canonicalize-net-hook "bbdb-obsolete" "\
-Return user's current net address given obsolete ADDR.
-
-Return ADDR if it is not obsolete anywhere, or there is no net address
-in the matching record.  The field is set in `bbdb-obsolete-net-field'.
-
-\(fn ADDR)" nil nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-field-edit-del bbdb-field-edit-add) "bbdb-edit"
-;;;;;;  "../bits/bbdb-edit.el" (20185 25662))
-;;; Generated autoloads from bbdb-edit.el
-
-(autoload 'bbdb-field-edit-add "bbdb-edit" "\
-Add VALUE to FIELD of bbdb-record(s).
-
-\(fn BBDB-RECORD FIELD VALUE)" t nil)
-
-(autoload 'bbdb-field-edit-del "bbdb-edit" "\
-Delete VALUE to FIELD of bbdb-record(s).
-If prefix arg exists, delete all existing field values matching VALUE(regexp).
-
-\(fn BBDB-RECORD FIELD VALUE)" t nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-include-anniversaries bbdb-anniversaries
-;;;;;;  bbdb-utilities-anniversaries) "../bits/bbdb-anniv" "../bits/bbdb-anniv.el"
-;;;;;;  (20185 25662))
-;;; Generated autoloads from bbdb-anniv.el
-
-(let ((loads (get 'bbdb-utilities-anniversaries 'custom-loads))) (if (member '"../bits/bbdb-anniv" loads) nil (put 'bbdb-utilities-anniversaries 'custom-loads (cons '"../bits/bbdb-anniv" loads))))
-
-(defvar bbdb-anniversaries nil "\
-Should BBDB anniversaries be included when the diary is displayed (fancy)?
-You must modify via \\[customize] for this variable to have an effect.")
-
-(custom-autoload 'bbdb-anniversaries "../bits/bbdb-anniv" nil)
-
-(autoload 'bbdb-include-anniversaries "bbdb-anniv" "\
-
-
-\(fn)" nil nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-initialize bbdb-version bbdb-mode bbdb-records)
-;;;;;;  "../lisp/bbdb" "../lisp/bbdb.el" (20200 26995))
-;;; Generated autoloads from bbdb.el
-
-(autoload 'bbdb-records "bbdb" "\
+(defsubst bbdb-records nil "\
 Return a list of all BBDB records; read in and parse the db if necessary.
-This function also notices if the disk file has been modified.
-
-\(fn)" nil nil)
+This function also notices if the corresponding file on disk has been modified." (with-current-buffer (bbdb-buffer) bbdb-records))
 
 (autoload 'bbdb-mode "bbdb" "\
 Major mode for viewing and editing the Insidious Big Brother Database.
@@ -113,25 +52,24 @@ For address completion using the names and mail addresses in the database:
 	 in Message mode, type \\<message-mode-map>\\[bbdb-complete-mail].
 
 Important variables:
-	 `bbdb-add-mails'
 	 `bbdb-auto-revert'
 	 `bbdb-canonicalize-redundant-mails'
 	 `bbdb-case-fold-search'
 	 `bbdb-completion-list'
 	 `bbdb-default-area-code'
 	 `bbdb-default-domain'
-	 `bbdb-electric'
 	 `bbdb-layout'
 	 `bbdb-file'
 	 `bbdb-message-caching'
-	 `bbdb-new-mails-always-primary'
 	 `bbdb-phone-style'
 	 `bbdb-check-auto-save-file'
 	 `bbdb-pop-up-layout'
 	 `bbdb-pop-up-window-size'
-	 `bbdb-accept-name-mismatch'
+	 `bbdb-add-name'
+	 `bbdb-add-aka'
+	 `bbdb-add-mails'
+	 `bbdb-new-mails-primary'
 	 `bbdb-read-only'
-	 `bbdb-use-alternate-names'
 	 `bbdb-message-pop-up'
 	 `bbdb-user-mail-address-re'
 
@@ -165,101 +103,33 @@ for example only for outgoing messages.
 
 ;;;***
 
-;;;### (autoloads (bbdb-load-touchtones bbdb-sound-volume bbdb-sounds-directory
-;;;;;;  bbdb-xemacs-display-completion-list) "../lisp/bbdb-xemacs"
-;;;;;;  "../lisp/bbdb-xemacs.el" (20185 25666))
-;;; Generated autoloads from bbdb-xemacs.el
-
-(autoload 'bbdb-xemacs-display-completion-list "bbdb-xemacs" "\
-Wrapper for `display-completion-list'.
-Allows callbacks on XEmacs `display-completion-list' is called with
-`:activate-callback CALLBACK' if CALLBACK is non-nil.
-`:user-data DATA' is also used if DATA is non-nil.
-Neither are used if CALLBACK is nil.
-
-\(fn LIST &optional CALLBACK DATA)" nil nil)
-
-(defvar bbdb-sounds-directory (expand-file-name "~/.xemacs/etc/sounds") "\
-The directory to load the touchtone sound files from, or nil if none.")
-
-(custom-autoload 'bbdb-sounds-directory "../lisp/bbdb-xemacs" t)
-
-(defvar bbdb-sound-volume 50 "\
-Volume for playing sounds.")
-
-(custom-autoload 'bbdb-sound-volume "../lisp/bbdb-xemacs" t)
-
-(autoload 'bbdb-load-touchtones "bbdb-xemacs" "\
-Load the touchtone sounds into `sound-alist'.
-The directory specified in `bbdb-sounds-directory' is searched for the files
-touchtone.*\\.\\(wav\\|au\\) as named in `bbdb-sound-files'.
-They are stored in `sound-alist' as touchtone0 to touchtone11.
-
-\(fn)" t nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-whois) "bbdb-whois" "bbdb-whois.el"
-;;;;;;  (20185 25666))
-;;; Generated autoloads from bbdb-whois.el
-
-(autoload 'bbdb-whois "bbdb-whois" "\
-
-
-\(fn THE-RECORD &optional SERVER)" t nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-insinuate-w3 bbdb-www-grab-homepage bbdb-www)
-;;;;;;  "../lisp/bbdb-w3" "../lisp/bbdb-w3.el" (20185 25665))
-;;; Generated autoloads from bbdb-w3.el
-
-(autoload 'bbdb-www "bbdb-w3" "\
-Visit URLs stored in the `www' field of the current record.
-\\[bbdb-apply-next-command-to-all-records]\\[bbdb-www] means to try all records currently visible.
-Non-interactively, do all records if arg is nonnil.
-
-\(fn REC &optional WHICH)" t nil)
-
-(autoload 'bbdb-www-grab-homepage "bbdb-w3" "\
-Grab the current URL and store it in the bbdb database
-
-\(fn RECORD)" t nil)
-
-(autoload 'bbdb-insinuate-w3 "bbdb-w3" "\
-Call this function to hook BBDB into W3.
-
-\(fn)" nil nil)
-
-;;;***
-
 ;;;### (autoloads (bbdb-insinuate-vm bbdb/vm-virtual-folder bbdb/vm-auto-folder
 ;;;;;;  bbdb/vm-virtual-real-folders bbdb/vm-virtual-folder-field
-;;;;;;  bbdb/vm-auto-folder-field bbdb/vm-auto-folder-headers) "../lisp/bbdb-vm"
-;;;;;;  "../lisp/bbdb-vm.el" (20200 26995))
-;;; Generated autoloads from bbdb-vm.el
+;;;;;;  bbdb/vm-auto-folder-field bbdb/vm-auto-folder-headers) "bbdb-vm"
+;;;;;;  "bbdb-vm.el" (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-vm.el
 
 (defvar bbdb/vm-auto-folder-headers '("From:" "To:" "CC:") "\
 The headers used by `bbdb/vm-auto-folder'.
 The order in this list is the order how matching will be performed.")
 
-(custom-autoload 'bbdb/vm-auto-folder-headers "../lisp/bbdb-vm" t)
+(custom-autoload 'bbdb/vm-auto-folder-headers "bbdb-vm" t)
 
 (defvar bbdb/vm-auto-folder-field 'vm-folder "\
 The field which `bbdb/vm-auto-folder' searches for.")
 
-(custom-autoload 'bbdb/vm-auto-folder-field "../lisp/bbdb-vm" t)
+(custom-autoload 'bbdb/vm-auto-folder-field "bbdb-vm" t)
 
 (defvar bbdb/vm-virtual-folder-field 'vm-virtual "\
 The field which `bbdb/vm-virtual-folder' searches for.")
 
-(custom-autoload 'bbdb/vm-virtual-folder-field "../lisp/bbdb-vm" t)
+(custom-autoload 'bbdb/vm-virtual-folder-field "bbdb-vm" t)
 
 (defvar bbdb/vm-virtual-real-folders nil "\
 Real folders used for defining virtual folders.
 If nil use `vm-primary-inbox'.")
 
-(custom-autoload 'bbdb/vm-virtual-real-folders "../lisp/bbdb-vm" t)
+(custom-autoload 'bbdb/vm-virtual-real-folders "bbdb-vm" t)
 
 (autoload 'bbdb/vm-auto-folder "bbdb-vm" "\
 Add entries to `vm-auto-folder-alist' for the records in BBDB.
@@ -301,108 +171,9 @@ Do not call this in your init file.  Use `bbdb-initialize'.
 
 ;;;***
 
-;;;### (autoloads (bbdb-srv-add-phone bbdb/srv-auto-create-mail-news-dispatcher
-;;;;;;  bbdb/srv-handle-headers-with-delay) "../lisp/bbdb-srv" "../lisp/bbdb-srv.el"
-;;;;;;  (20185 25665))
-;;; Generated autoloads from bbdb-srv.el
-
-(autoload 'bbdb/srv-handle-headers-with-delay "bbdb-srv" "\
-Just like bbdb/srv-handle-headers, but only updates every few seconds.
-This is so that trying to display many records in succession won't queue them
-up, but will end up only displaying a record when no displays have been
-requested for a couple of seconds.
-
-\(fn HEADERS)" nil nil)
-
-(defalias 'bbdb-srv 'bbdb/srv-handle-headers-with-delay)
-
-(autoload 'bbdb/srv-auto-create-mail-news-dispatcher "bbdb-srv" "\
-For use as the value of bbdb/srv-auto-create-p.
-This will try to decide if this is a mail message or a news message, and then
-run either bbdb/news-auto-create-p or bbdb/mail-auto-create-p as appropriate.
-\(The heuristic is that news messages never have a Status or X-Mozilla-Status
-header; and that mail messages never have Path headers.)
-
-\(fn)" nil nil)
-
-(autoload 'bbdb-srv-add-phone "bbdb-srv" "\
-
-
-\(fn PHONE-STRING &optional DESCRIPTION RECORD)" nil nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-rfc822-addresses bbdb-extract-address-components
-;;;;;;  bbdb-snarf-region bbdb-snarf) "../lisp/bbdb-snarf" "../lisp/bbdb-snarf.el"
-;;;;;;  (20185 25665))
-;;; Generated autoloads from bbdb-snarf.el
-
-(autoload 'bbdb-snarf "bbdb-snarf" "\
-snarf up a bbdb record WHERE the point is.
-We assume things are line-broken and paragraph-bounded.
-The name comes first and other fields (address,
-phone, email, web pages) are recognized by context.
-
-Required context:
-    addresses end with \"City, State ZIP\" or \"City, State\"
-    phones match bbdb-snarf-phone-regexp
-        (currently US-style phones)
-    e-mail addresses have @'s in them
-    web sites are recognized by http:// or www.
-
-Address and phone context are currently US-specific;
-patches to internationalize these assumptions are welcome.
-
-\\[bbdb-snarf] is similar to \\[bbdb-whois-sentinel], but less specialized.
-
-\(fn WHERE)" t nil)
-
-(autoload 'bbdb-snarf-region "bbdb-snarf" "\
-snarf up a bbdb record in the current region.  See `bbdb-snarf' for
-more details.
-
-\(fn BEGIN END)" t nil)
-
-(autoload 'bbdb-extract-address-components "bbdb-snarf" "\
-Return a list of address components found in ADSTRING.
-If extracting fails one probably has to adjust the variable
-`bbdb-extract-address-component-regexps'.
-
-\(fn ADSTRING &optional IGNORE-ERRORS)" nil nil)
-
-(autoload 'bbdb-rfc822-addresses "bbdb-snarf" "\
-Split ADDRLINE into a list of parsed addresses.
-
-You can't do this with rfc822.el in any sort of useful way because it discards
-the comments. You can't do this with mail-extr.el because the multiple address
-parsing in GNU Emacs appears to be broken beyond belief, and the XEmacs
-version doesn't support multiple addresses.
-
-\(fn ADDRLINE &optional IGNORE-ERRORS)" nil nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-insinuate-sc bbdb/sc-default) "bbdb-sc"
-;;;;;;  "../lisp/bbdb-sc.el" (20185 25665))
-;;; Generated autoloads from bbdb-sc.el
-
-(autoload 'bbdb/sc-default "bbdb-sc" "\
-If the current \"from\" field in `sc-mail-info' alist
-contains only an e-mail address, lookup e-mail address in
-BBDB, and prepend a new \"from\" field to `sc-mail-info'.
-
-\(fn)" nil nil)
-
-(autoload 'bbdb-insinuate-sc "bbdb-sc" "\
-Call this function to hook BBDB into Supercite.
-
-\(fn)" nil nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-insinuate-rmail) "bbdb-rmail" "bbdb-rmail.el"
-;;;;;;  (20200 26995))
-;;; Generated autoloads from bbdb-rmail.el
+;;;### (autoloads (bbdb-insinuate-rmail) "bbdb-rmail.el"
+;;;;;;  (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-rmail.el
 
 (autoload 'bbdb-insinuate-rmail "bbdb-rmail" "\
 Hook BBDB into RMAIL.
@@ -412,20 +183,9 @@ Do not call this in your init file.  Use `bbdb-initialize'.
 
 ;;;***
 
-;;;### (autoloads (bbdb-insinuate-reportmail) "bbdb-reportmail"
-;;;;;;  "../lisp/bbdb-reportmail.el" (20185 25665))
-;;; Generated autoloads from bbdb-reportmail.el
-
-(autoload 'bbdb-insinuate-reportmail "bbdb-reportmail" "\
-Call this function to hook BBDB into reportmail.
-
-\(fn)" nil nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-print) "bbdb-print" "bbdb-print.el"
-;;;;;;  (20200 26995))
-;;; Generated autoloads from bbdb-print.el
+;;;### (autoloads (bbdb-print) "bbdb-print.el"
+;;;;;;  (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-print.el
 
 (autoload 'bbdb-print "bbdb-print" "\
 Make a TeX FILE for printing RECORDS.
@@ -445,8 +205,8 @@ of the printout, notably the variables `bbdb-print-alist' and
 ;;;;;;  bbdb-display-all-recipients bbdb-mua-display-recipients bbdb-mua-display-sender
 ;;;;;;  bbdb-mua-display-records bbdb-update-records bbdb-select-message
 ;;;;;;  bbdb-ignore-message bbdb-accept-message bbdb-message-header)
-;;;;;;  "../lisp/bbdb-mua" "../lisp/bbdb-mua.el" (20200 26995))
-;;; Generated autoloads from bbdb-mua.el
+;;;;;;  "bbdb-mua.el" (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-mua.el
 
 (autoload 'bbdb-message-header "bbdb-mua" "\
 For the current message return the value of HEADER.
@@ -483,6 +243,8 @@ ADDRESS-LIST is a list of mail addresses.  (It can be extracted from
 a mail message using `bbdb-get-address-components'.)
 UPDATE-P may take the following values:
  search       Search for existing records matching ADDRESS.
+ update       Search for existing records matching ADDRESS;
+                update name and mail field if necessary.
  query        Search for existing records matching ADDRESS;
                 query for creation of a new record if the record does not exist.
  create or t  Search for existing records matching ADDRESS;
@@ -492,11 +254,10 @@ UPDATE-P may take the following values:
  nil          Take the MUA-specific variable `bbdb/MUA-update-records-p'
                 which may take one of the above values.
                 If this still gives nil, `bbdb-update-records' returns nil.
-If MSG-KEY is non-nil consult cache.
 
 Usually this function is called by the wrapper `bbdb-mua-update-records'.
 
-\(fn ADDRESS-LIST &optional UPDATE-P MSG-KEY)" nil nil)
+\(fn ADDRESS-LIST &optional UPDATE-P)" nil nil)
 
 (autoload 'bbdb-mua-display-records "bbdb-mua" "\
 Display the BBDB record(s) for the addresses in this message.
@@ -533,36 +294,46 @@ If the records do not exist, they are generated.
 \(fn &optional HEADER-CLASS)" t nil)
 
 (autoload 'bbdb-mua-annotate-sender "bbdb-mua" "\
-Add a line to the end of the Notes field of the BBDB record
-corresponding to the sender(s) of this message.
+Add STRING to notes field of the BBDB record(s) of message sender(s).
 If prefix REPLACE is non-nil, replace the existing notes entry (if any).
+UPDATE-P may take the same values as `bbdb-update-records-p'.
+For interactive calls, use car of `bbdb-mua-update-interactive-p'.
 
-\(fn STRING &optional REPLACE)" t nil)
+\(fn STRING &optional REPLACE UPDATE-P)" t nil)
 
 (autoload 'bbdb-mua-annotate-recipients "bbdb-mua" "\
-Add a line to the end of the Notes field of the BBDB record
-corresponding to the recipient(s) of this message.
+Add STRING to notes field of the BBDB records of message recipients.
 If prefix REPLACE is non-nil, replace the existing notes entry (if any).
+UPDATE-P may take the same values as `bbdb-update-records-p'.
+For interactive calls, use car of `bbdb-mua-update-interactive-p'.
 
-\(fn STRING &optional REPLACE)" t nil)
+\(fn STRING &optional REPLACE UPDATE-P)" t nil)
 
 (autoload 'bbdb-mua-edit-field "bbdb-mua" "\
-Edit FIELD of record.
+Edit FIELD of the BBDB record(s) of message sender(s) or recipients.
 FIELD defaults to 'notes.  With prefix arg, ask for FIELD.
+UPDATE-P may take the same values as `bbdb-update-records-p'.
+For interactive calls, use car of `bbdb-mua-update-interactive-p'.
+HEADER-CLASS is defined in `bbdb-message-headers'.  If it is nil,
+use all classes in `bbdb-message-headers'.
 
-\(fn FIELD &optional HEADER-CLASS)" t nil)
+\(fn FIELD &optional UPDATE-P HEADER-CLASS)" t nil)
 
 (autoload 'bbdb-mua-edit-field-sender "bbdb-mua" "\
 Edit FIELD of record corresponding to sender of this message.
 FIELD defaults to 'notes.  With prefix arg, ask for FIELD.
+UPDATE-P may take the same values as `bbdb-update-records-p'.
+For interactive calls, use car of `bbdb-mua-update-interactive-p'.
 
-\(fn &optional FIELD)" t nil)
+\(fn &optional FIELD UPDATE-P)" t nil)
 
 (autoload 'bbdb-mua-edit-field-recipients "bbdb-mua" "\
 Edit FIELD of record corresponding to recipient of this message.
 FIELD defaults to 'notes.  With prefix arg, ask for FIELD.
+UPDATE-P may take the same values as `bbdb-update-records-p'.
+For interactive calls, use car of `bbdb-mua-update-interactive-p'.
 
-\(fn &optional FIELD)" t nil)
+\(fn &optional FIELD UPDATE-P)" t nil)
 
 (autoload 'bbdb-mua-auto-update "bbdb-mua" "\
 Update BBDB automatically based on incoming and outgoing messages.
@@ -575,7 +346,7 @@ Return matching records.
 HEADER-CLASS is defined in `bbdb-message-headers'.  If it is nil,
 use all classes in `bbdb-message-headers'.
 UPDATE-P may take the same values as `bbdb-mua-auto-update-p'.
-If UPDATE-P is nil, use `bbdb-mua-auto-update-p'.
+If UPDATE-P is nil, use `bbdb-mua-auto-update-p' (which see).
 
 If `bbdb-message-pop-up' is non-nil, the *BBDB* buffer is displayed
 along with the MUA window(s), showing the matching records.
@@ -597,6 +368,8 @@ This function is separate from the general function `bbdb-initialize'
 as this allows one to initialize the auto update feature for some MUAs only,
 for example only for outgoing messages.
 
+See `bbdb-mua-auto-update' for details about the auto update feature.
+
 \(fn &rest MUAS)" nil nil)
 
 (autoload 'bbdb-auto-notes "bbdb-mua" "\
@@ -608,15 +381,15 @@ For use as an element of `bbdb-notice-mail-hook'.
 \(fn RECORD)" nil nil)
 
 (autoload 'bbdb-canonicalize-mail-1 "bbdb-mua" "\
-
+Example of `bbdb-canonicalize-mail-function'.
 
 \(fn ADDRESS)" nil nil)
 
 ;;;***
 
 ;;;### (autoloads (bbdb-undocumented-variables bbdb-migrate) "bbdb-migrate"
-;;;;;;  "../lisp/bbdb-migrate.el" (20200 26995))
-;;; Generated autoloads from bbdb-migrate.el
+;;;;;;  "bbdb-migrate.el" (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-migrate.el
 
 (autoload 'bbdb-migrate "bbdb-migrate" "\
 Migrate the BBDB from the version on disk to the current version
@@ -638,9 +411,9 @@ for outdated BBDB variables that are set via your personal `custom-file'.
 
 ;;;***
 
-;;;### (autoloads (bbdb-insinuate-mh) "bbdb-mhe" "bbdb-mhe.el"
-;;;;;;  (20200 26995))
-;;; Generated autoloads from bbdb-mhe.el
+;;;### (autoloads (bbdb-insinuate-mh) "bbdb-mhe.el"
+;;;;;;  (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-mhe.el
 
 (autoload 'bbdb-insinuate-mh "bbdb-mhe" "\
 Call this function to hook BBDB into MH-E.
@@ -651,8 +424,8 @@ Do not call this in your init file.  Use `bbdb-initialize'.
 ;;;***
 
 ;;;### (autoloads (bbdb-insinuate-mail bbdb-insinuate-message) "bbdb-message"
-;;;;;;  "../lisp/bbdb-message.el" (20200 26995))
-;;; Generated autoloads from bbdb-message.el
+;;;;;;  "bbdb-message.el" (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-message.el
 
 (autoload 'bbdb-insinuate-message "bbdb-message" "\
 Hook BBDB into Message Mode.
@@ -668,36 +441,9 @@ Do not call this in your init file.  Use `bbdb-initialize'.
 
 ;;;***
 
-;;;### (autoloads (bbdb-merge-file bbdb-merge-record) "bbdb-merge"
-;;;;;;  "../lisp/bbdb-merge.el" (20185 25665))
-;;; Generated autoloads from bbdb-merge.el
-
-(autoload 'bbdb-merge-record "bbdb-merge" "\
-Generic merge function.
-
-Merges new-record into your bbdb, using DATE to check who's more
-up-to-date and OVERRIDE to decide who gets precedence if two dates
-match. DATE can be extracted from a notes if it's an alist with an
-element marked timestamp. Set OVERRIDE to 'new to allow the new record
-to stomp on existing data, 'old to preserve existing data or nil to
-merge both together. If it can't find a record to merge with, it will
-create a new record. If MERGE-RECORD is set, it's a record discovered
-by other means that should be merged with.
-
-Returns the Grand Unified Record.
-
-\(fn NEW-RECORD &optional MERGE-RECORD OVERRIDE)" nil nil)
-
-(autoload 'bbdb-merge-file "bbdb-merge" "\
-Merge a bbdb file into the in-core bbdb.
-
-\(fn &optional BBDB-NEW OVERRIDE MATCH-FUN)" t nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-ispell-export) "bbdb-ispell" "bbdb-ispell.el"
-;;;;;;  (20200 26995))
-;;; Generated autoloads from bbdb-ispell.el
+;;;### (autoloads (bbdb-ispell-export) "bbdb-ispell.el"
+;;;;;;  (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-ispell.el
 
 (autoload 'bbdb-ispell-export "bbdb-ispell" "\
 Export BBDB records to ispell personal dictionaries.
@@ -706,109 +452,9 @@ Export BBDB records to ispell personal dictionaries.
 
 ;;;***
 
-;;;### (autoloads (bbdb-force-record-create sample-bbdb-canonicalize-net-hook
-;;;;;;  bbdb-auto-notes-hook bbdb-ignore-some-messages-hook bbdb-ignore-selected-messages-hook
-;;;;;;  bbdb-ignore-most-messages-hook bbdb-extract-field-value bbdb-header-start
-;;;;;;  bbdb-creation-date-hook bbdb-timestamp-hook) "../lisp/bbdb-hooks"
-;;;;;;  "../lisp/bbdb-hooks.el" (20185 25665))
-;;; Generated autoloads from bbdb-hooks.el
-
-(autoload 'bbdb-timestamp-hook "bbdb-hooks" "\
-For use as a `bbdb-change-hook'; maintains a notes-field called `timestamp'
-for the given record which contains the time when it was last modified.  If
-there is such a field there already, it is changed, otherwise it is added.
-
-\(fn RECORD)" nil nil)
-
-(autoload 'bbdb-creation-date-hook "bbdb-hooks" "\
-For use as a `bbdb-create-hook'; adds a notes-field called `creation-date'
-which is the current time string.
-
-\(fn RECORD)" nil nil)
-
-(autoload 'bbdb-header-start "bbdb-hooks" "\
-Returns a marker at the beginning of the header block of the current
-message.  This will not necessarily be in the current buffer.
-
-\(fn)" nil nil)
-
-(autoload 'bbdb-extract-field-value "bbdb-hooks" "\
-Given the name of a field (like \"Subject\") this returns the value of
-that field in the current message, or nil.  This works whether you're in
-Gnus, Rmail, or VM.  This works on multi-line fields, but if more than
-one field of the same name is present, only the last is returned.  It is
-expected that the current buffer has a message in it, and (point) is at the
-beginning of the message headers.
-
-\(fn FIELD-NAME)" nil nil)
-
-(autoload 'bbdb-ignore-most-messages-hook "bbdb-hooks" "\
-For use as the value of bbdb/news-auto-create-p or bbdb/mail-auto-create-p.
-This will automatically create BBDB entries for messages which match
-the bbdb-ignore-most-messages-alist (which see) and *no* others.
-
-\(fn &optional INVERT-SENSE)" nil nil)
-
-(autoload 'bbdb-ignore-selected-messages-hook "bbdb-hooks" "\
-For use as a bbdb/news-auto-create-hook or bbdb/mail-auto-create-hook.
-This will automatically create BBDB entries for messages based on a
-combination of bbdb-ignore-some-messages-alist and
-bbdb-ignore-most-messages-alist.  It first looks at the SOME list.  If
-that doesn't disqualify a message, then it looks at the MOST list.  If
-that qualifies the message, the record is auto-created, but a
-confirmation is conditionally sought, based on the value of
-`bbdb-ignore-selected-messages-confirmation'.
-
-\(fn)" nil nil)
-
-(autoload 'bbdb-ignore-some-messages-hook "bbdb-hooks" "\
-For use as a `bbdb/news-auto-create-hook' or `bbdb/mail-auto-create-hook'.
-This will automatically create BBDB entries for messages which do *not*
-match the `bbdb-ignore-some-messages-alist' (which see).
-
-\(fn)" nil nil)
-
-(autoload 'bbdb-auto-notes-hook "bbdb-hooks" "\
-For use as a `bbdb-notice-hook'.  This might automatically add some text
-to the notes field of the BBDB record corresponding to the current record
-based on the header of the current message.  See the documentation for
-the variables `bbdb-auto-notes-alist' and `bbdb-auto-notes-ignore'.
-
-\(fn RECORD)" nil nil)
-
-(autoload 'sample-bbdb-canonicalize-net-hook "bbdb-hooks" "\
-
-
-\(fn ADDR)" nil nil)
-
-(autoload 'bbdb-force-record-create "bbdb-hooks" "\
-Force automatic creation of a BBDB records for the current message.
-You might add this to the reply hook of your MUA in order to automatically
-get records added for those people you reply to.
-
-\(fn)" t nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-menu bbdb-fontify-buffer) "bbdb-gui"
-;;;;;;  "../lisp/bbdb-gui.el" (20185 25665))
-;;; Generated autoloads from bbdb-gui.el
-
-(autoload 'bbdb-fontify-buffer "bbdb-gui" "\
-
-
-\(fn &optional RECORDS)" t nil)
-
-(autoload 'bbdb-menu "bbdb-gui" "\
-
-
-\(fn EVENT)" t nil)
-
-;;;***
-
 ;;;### (autoloads (bbdb-insinuate-gnus bbdb/gnus-score) "bbdb-gnus"
-;;;;;;  "../lisp/bbdb-gnus.el" (20200 26995))
-;;; Generated autoloads from bbdb-gnus.el
+;;;;;;  "bbdb-gnus.el" (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-gnus.el
 
 (autoload 'bbdb/gnus-score "bbdb-gnus" "\
 This returns a score alist for Gnus.  A score pair will be made for
@@ -827,26 +473,6 @@ Do not call this in your init file.  Use `bbdb-initialize'.
 
 ;;;***
 
-;;;### (autoloads (bbdb-create-ftp-site bbdb-ftp) "bbdb-ftp"
-;;;;;;  "../lisp/bbdb-ftp.el" (20185 25665))
-;;; Generated autoloads from bbdb-ftp.el
-
-(autoload 'bbdb-ftp "bbdb-ftp" "\
-Use ange-ftp to open an ftp-connection to a BBDB record's name.
-If this command is executed from the *BBDB* buffer, ftp the site of
-the record at point; otherwise, it prompts for an ftp-site.
-
-\(fn BBDB-RECORD &optional WHICH)" t nil)
-
-(autoload 'bbdb-create-ftp-site "bbdb-ftp" "\
-Add a new ftp-site entry to the bbdb database.
-Prompts for all relevant info using the echo area,
-inserts the new record in the db, sorted alphabetically.
-
-\(fn RECORD)" t nil)
-
-;;;***
-
 ;;;### (autoloads (bbdb-help bbdb-info bbdb-copy-records-as-kill
 ;;;;;;  bbdb-grab-url bbdb-browse-url bbdb-dial bbdb-add-mail-alias
 ;;;;;;  bbdb-mail-aliases bbdb-complete-mail bbdb-completing-read-mails
@@ -861,8 +487,8 @@ inserts the new record in the db, sorted alphabetically.
 ;;;;;;  bbdb-search-phone bbdb-search-mail bbdb-search-address bbdb-search-organization
 ;;;;;;  bbdb-search-name bbdb bbdb-search-invert bbdb-append-display
 ;;;;;;  bbdb-append-display-p bbdb-do-records bbdb-do-all-records)
-;;;;;;  "../lisp/bbdb-com" "../lisp/bbdb-com.el" (20200 26995))
-;;; Generated autoloads from bbdb-com.el
+;;;;;;  "bbdb-com.el" (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-com.el
 
 (autoload 'bbdb-do-all-records "bbdb-com" "\
 Command prefix for operating on all records currently displayed.
@@ -999,6 +625,9 @@ value of \"\", the default) means do not alter the address.
 Edit the contents of FIELD of RECORD.
 If point is in the middle of a multi-line field (e.g., address),
 then the entire field is edited, not just the current line.
+For editing phone numbers or addresses, VALUE must be the phone number
+or address that gets edited. An error is thrown when attempting to edit
+a phone number or address with VALUE being nil.
 
 \(fn RECORD FIELD &optional VALUE FLAG)" t nil)
 
@@ -1073,14 +702,13 @@ With prefix N, omit the next N records.  If negative, omit backwards.
 \(fn N)" t nil)
 
 (autoload 'bbdb-merge-records "bbdb-com" "\
-Merge the current record into some other record; that is, delete the
-record under point after copying all of the data within it into some other
-record.  This is useful if you realize that somehow a redundant record has
-gotten into the database, and you want to merge it with another.
-
-If both records have names and/or organizations, you are asked which to use.
+Merge OLD-RECORD into NEW-RECORD.
+This copies all the data in OLD-RECORD into NEW-RECORD.  Then OLD-RECORD
+is deleted.  If both records have names and/or organizations, ask which to use.
 Phone numbers, addresses, and mail addresses are simply concatenated.
-The first record is the record under the point; the second is prompted for.
+
+Interactively, OLD-RECORD is the current record.  NEW-RECORD is prompted for.
+With prefix arg NEW-RECORD defaults to the first record with the same name.
 
 \(fn OLD-RECORD NEW-RECORD)" t nil)
 
@@ -1231,8 +859,8 @@ Interactively, use BBDB prefix \\<bbdb-mode-map>\\[bbdb-do-all-records], see `bb
 ;;;***
 
 ;;;### (autoloads (bbdb-anniv-diary-entries) "bbdb-anniv"
-;;;;;;  "../lisp/bbdb-anniv.el" (20200 26995))
-;;; Generated autoloads from bbdb-anniv.el
+;;;;;;  "bbdb-anniv.el" (20606 36587))
+;;; Generated autoloads from ../lisp/bbdb-anniv.el
 
 (autoload 'bbdb-anniv-diary-entries "bbdb-anniv" "\
 Add anniversaries from BBDB records to `diary-list-entries'.
@@ -1242,26 +870,5 @@ To enable this feature, put the following into your .emacs:
  (add-hook 'diary-list-entries-hook 'bbdb-anniv-diary-entries)
 
 \(fn)" nil nil)
-
-;;;***
-
-;;;### (autoloads (bbdb-test/run-one-test bbdb-test/run-tests bbdb-test/run-all-tests)
-;;;;;;  "../testing/bbdb-test" "../testing/bbdb-test.el" (20185 25667))
-;;; Generated autoloads from bbdb-test.el
-
-(autoload 'bbdb-test/run-all-tests "bbdb-test" "\
-Run all BBDB tests.
-
-\(fn &optional BATCH)" t nil)
-
-(autoload 'bbdb-test/run-tests "bbdb-test" "\
-Run BBDB tests.
-
-\(fn)" t nil)
-
-(autoload 'bbdb-test/run-one-test "bbdb-test" "\
-
-
-\(fn TEST-VAR)" t nil)
 
 ;;;***
